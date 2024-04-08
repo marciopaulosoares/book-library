@@ -6,8 +6,8 @@ import com.mp.booklibrary.entity.UserProfile;
 import java.util.List;
 
 public interface UserService {
-    List<UserDto> getAll();
+    List<UserDto> findAll();
     UserDto Save(UserProfile entity);
     UserDto Update(UserProfile entity);
-    boolean Delete(UserProfile entity);
+    boolean Delete(Long id);
 }

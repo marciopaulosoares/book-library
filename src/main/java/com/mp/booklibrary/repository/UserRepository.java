@@ -1,13 +1,11 @@
 package com.mp.booklibrary.repository;
 
 import com.mp.booklibrary.entity.UserProfile;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
 
-public interface UserRepository {
-    List<UserProfile> getAll();
-    UserProfile Save(UserProfile entity);
-    UserProfile Update(UserProfile entity);
-    boolean Delete(UserProfile entity);
+public interface UserRepository extends CrudRepository<UserProfile, Long> {
+    List<UserProfile> findByNameIgnoreCaseContaining(String name);
 }

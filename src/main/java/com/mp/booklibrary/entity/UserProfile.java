@@ -1,59 +1,63 @@
 package com.mp.booklibrary.entity;
 
+import com.mp.booklibrary.enums.UserProfileType;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user_profile")
-public class UserProfile {
+public class UserProfile extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long Id;
     @Column(name = "name", nullable = false)
-    private String Name;
+    private String name;
     @Column(name = "email", nullable = false)
-    private String Email;
+    private String email;
     @Column(name = "active")
-    private boolean Active;
+    private boolean active;
 
-    public UserProfile(Long id, String name, String email, boolean active) {
 
-        Id = id;
-        Name = name;
-        Email = email;
-        Active = active;
+
+    @Column(name="profile_type")
+    @Enumerated(EnumType.ORDINAL)
+    private UserProfileType profileType;
+
+    public UserProfile(Long id, String name, String email, UserProfileType profileType, boolean active) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.active = active;
+        this.profileType = profileType;
     }
 
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public boolean isActive() {
-        return Active;
+        return active;
     }
 
     public void setActive(boolean active) {
-        Active = active;
+        this.active = active;
+    }
+
+    public UserProfileType getProfileType() {
+        return profileType;
+    }
+
+    public void setProfileType(UserProfileType profileType) {
+        this.profileType = profileType;
     }
 }

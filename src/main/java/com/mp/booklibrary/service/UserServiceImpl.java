@@ -7,27 +7,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService{
+
+    private final UserRepository userRepository;
     @Autowired
-    UserRepository userRepository;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
-    public List<UserDto> getAll() {
-        return UserDto.fromEntities(userRepository.getAll());
+    public List<UserDto> findAll() {
+
+        return UserDto.fromEntities(userRepository.findAll());
     }
 
     @Override
     public UserDto Save(UserProfile entity) {
-        return UserDto.fromEntity(userRepository.Save(entity));
+        return UserDto.fromEntity(userRepository.save(entity));
     }
 
     @Override
     public UserDto Update(UserProfile entity) {
-        return UserDto.fromEntity(userRepository.Update(entity));
+
+        return UserDto.fromEntity(userRepository.save(entity));
     }
 
     @Override
-    public boolean Delete(UserProfile entity) {
-        return userRepository.Delete(entity);
+    public boolean Delete(Long id) {
+        Optional<UserProfile> user = userRepository.findById(id);
+        if(!user.isEmpty()){
+            userRepository.delete(user.get());
+            return  true;
+        }
+        return  false;
     }
 }

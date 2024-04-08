@@ -2,23 +2,26 @@ package com.mp.booklibrary.dto;
 
 import com.mp.booklibrary.entity.UserProfile;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
-public class UserDto {
-    private Long Id;
-    private String Name;
-    private String Email;
-    private boolean Active;
+public class UserDto extends BaseDto {
+    private String name;
+    private String email;
+    private boolean active;
+    private int profileType;
 
-    public UserDto(Long id, String name, String email, boolean active) {
-        Id = id;
-        Name = name;
-        Email = email;
-        Active = active;
+    public UserDto(String name, String email, boolean active, Optional<Long> id, int profileType) {
+        super(id);
+        this.name = name;
+        this.email = email;
+        this.active = active;
+        this.profileType = profileType;
     }
 
     public UserDto() {
+        super(Optional.empty());
     }
 
     public static  UserDto fromEntity(UserProfile entity){
@@ -26,26 +29,53 @@ public class UserDto {
             return new UserDto();
         }
 
-        return  new UserDto(entity.getId(), entity.getName(), entity.getEmail(), entity.isActive());
+        return  new UserDto(
+                    entity.getName(),
+                    entity.getEmail(),
+                    entity.isActive(),
+                    Optional.of(entity.getId()),
+                    entity.getProfileType().getValue()
+        );
     }
 
-    public static List<UserDto> fromEntities(List<UserProfile> entities){
-        return entities.stream().map( u -> fromEntity(u)).collect(Collectors.toList());
-    }
+    public static List<UserDto> fromEntities(Iterable<UserProfile> entities){
+        List<UserDto> users = new ArrayList<UserDto>();
+         for(UserProfile user : entities ){
+             users.add(fromEntity(user));
+         }
 
-    public Long getId() {
-        return Id;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public String getEmail() {
-        return Email;
+         return  users;
     }
 
     public boolean isActive() {
-        return Active;
+        return active;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public int getProfileType() {
+        return profileType;
+    }
+
+    public void setProfileType(int profileType) {
+        this.profileType = profileType;
     }
 }
