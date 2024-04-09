@@ -1,6 +1,7 @@
 package com.mp.booklibrary.dto;
 
 import com.mp.booklibrary.entity.UserProfile;
+import com.mp.booklibrary.enums.UserProfileType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ public class UserDto extends BaseDto {
     private String email;
     private boolean active;
     private int profileType;
+    private String profileTypeDescription;
 
     public UserDto(String name, String email, boolean active, Optional<Long> id, int profileType) {
         super(id);
@@ -24,9 +26,25 @@ public class UserDto extends BaseDto {
         super(Optional.empty());
     }
 
+    public UserProfile toEntity(){
+        return new UserProfile(
+                id.isPresent() ? id.get() : 0,
+                name,
+                email,
+                UserProfileType.values()[profileType],
+                active
+        );
+    }
+
     public static  UserDto fromEntity(UserProfile entity){
         if(entity == null){
-            return new UserDto();
+            return new UserDto(
+                    entity.getName(),
+                    entity.getEmail(),
+                    entity.isActive(),
+                    Optional.ofNullable(entity.getId()),
+                    entity.getProfileType().getValue()
+            );
         }
 
         return  new UserDto(
@@ -77,5 +95,16 @@ public class UserDto extends BaseDto {
 
     public void setProfileType(int profileType) {
         this.profileType = profileType;
+    }
+
+    public String getProfileTypeDescription() {
+        return profileTypeDescription;
+    }
+    private  void setProfileTypeDescription(int profileType){
+        for (UserProfileType p : UserProfileType.values()){
+            if(p.getValue() == profileType){
+                profileTypeDescription = p.getName();
+            }
+        }
     }
 }
