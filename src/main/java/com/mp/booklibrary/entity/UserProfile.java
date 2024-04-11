@@ -28,6 +28,8 @@ public class UserProfile extends BaseEntity {
         this.profileType = profileType;
     }
 
+    public UserProfile() {
+    }
 
     public String getName() {
         return name;

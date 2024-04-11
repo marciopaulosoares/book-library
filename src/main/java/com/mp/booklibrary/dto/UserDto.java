@@ -1,7 +1,7 @@
 package com.mp.booklibrary.dto;
 
 import com.mp.booklibrary.entity.UserProfile;
-import com.mp.booklibrary.enums.UserProfileType;
+import com.mp.booklibrary.utils.EnumUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ public class UserDto extends BaseDto {
         this.email = email;
         this.active = active;
         this.profileType = profileType;
+        this.profileTypeDescription = EnumUtils.getUserProfileTypeDescription(profileType);
     }
 
     public UserDto() {
@@ -31,13 +32,13 @@ public class UserDto extends BaseDto {
                 id.isPresent() ? id.get() : 0,
                 name,
                 email,
-                UserProfileType.values()[profileType],
+                EnumUtils.getUserProfileType(profileType),
                 active
         );
     }
 
     public static  UserDto fromEntity(UserProfile entity){
-        if(entity == null){
+        if(entity != null){
             return new UserDto(
                     entity.getName(),
                     entity.getEmail(),
@@ -46,14 +47,7 @@ public class UserDto extends BaseDto {
                     entity.getProfileType().getValue()
             );
         }
-
-        return  new UserDto(
-                    entity.getName(),
-                    entity.getEmail(),
-                    entity.isActive(),
-                    Optional.of(entity.getId()),
-                    entity.getProfileType().getValue()
-        );
+        return  new UserDto();
     }
 
     public static List<UserDto> fromEntities(Iterable<UserProfile> entities){
@@ -101,10 +95,6 @@ public class UserDto extends BaseDto {
         return profileTypeDescription;
     }
     private  void setProfileTypeDescription(int profileType){
-        for (UserProfileType p : UserProfileType.values()){
-            if(p.getValue() == profileType){
-                profileTypeDescription = p.getName();
-            }
-        }
+        EnumUtils.getUserProfileTypeDescription(profileType);
     }
 }
