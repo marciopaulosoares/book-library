@@ -14,8 +14,6 @@ public class UserProfile extends BaseEntity {
     @Column(name = "active")
     private boolean active;
 
-
-
     @Column(name="profile_type")
     @Enumerated(EnumType.ORDINAL)
     private UserProfileType profileType;
