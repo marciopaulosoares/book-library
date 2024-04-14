@@ -1,9 +1,8 @@
 package com.mp.booklibrary.controller;
 
 import com.mp.booklibrary.dto.UserDto;
-import com.mp.booklibrary.entity.UserProfile;
+import com.mp.booklibrary.dto.UserResponseDto;
 import com.mp.booklibrary.service.UserService;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ public class UserController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<UserDto>> getAll(){
+    public ResponseEntity<List<UserResponseDto>> getAll(){
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 

@@ -1,22 +1,25 @@
 package com.mp.booklibrary.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.UuidGenerator;
 
-import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+public class BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    protected Long id;
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    protected UUID id;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
-    public void setId(Long id) {
-        this.id = id;
+
+    public BaseEntity() {
+        id = UUID.randomUUID();
     }
 
     @Override

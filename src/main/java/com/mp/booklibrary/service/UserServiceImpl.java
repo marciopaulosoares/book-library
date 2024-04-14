@@ -1,6 +1,7 @@
 package com.mp.booklibrary.service;
 
 import com.mp.booklibrary.dto.UserDto;
+import com.mp.booklibrary.dto.UserResponseDto;
 import com.mp.booklibrary.entity.UserProfile;
 import com.mp.booklibrary.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,26 +14,27 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    public List<UserDto> findAll() {
+    public List<UserResponseDto> findAll() {
 
-        return UserDto.fromEntities(userRepository.findAll());
+        return UserResponseDto.fromEntities(userRepository.findAll());
     }
 
     @Override
-    public UserDto Save(UserProfile entity) {
-        return UserDto.fromEntity(userRepository.save(entity));
+    public UserResponseDto Save(UserProfile entity) {
+        return UserResponseDto.fromEntity(userRepository.save(entity));
     }
 
     @Override
-    public UserDto Update(UserProfile entity) {
+    public UserResponseDto Update(UserProfile entity) {
 
-        return UserDto.fromEntity(userRepository.save(entity));
+        return UserResponseDto.fromEntity(userRepository.save(entity));
     }
 
     @Override
