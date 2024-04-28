@@ -1,22 +1,14 @@
 package com.mp.booklibrary.enums;
 
 public enum UserProfileType {
-    BACKOFFICE(1,"Backoffice"),
-    BORROWER(2,"User");
+    BACKOFFICE("Backoffice"),
+    MEMBER("Member");
+    private final String label;
 
-    private final int value;
-    private final String name;
-
-     UserProfileType(int id, String name){
-         this.value = id;
-         this.name = name;
+     UserProfileType(String label){
+         this.label = label;
      }
-
-     public int getValue(){
-         return  value;
-     }
-
-     public String getName(){
-         return  name;
+     public String getLabel(){
+         return label;
      }
 }

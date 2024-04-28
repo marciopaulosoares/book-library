@@ -31,12 +31,12 @@ public class UserResponseDto extends UserDto {
                 .name(entity.getName())
                 .email(entity.getEmail())
                 .active(entity.isActive())
-                .profileType(entity.getProfileType().getValue())
+                .profileType(entity.getProfileType().ordinal())
                 .id(entity.getId().toString())
                 .build();
         //TODO
-        // Encapsulate profile description every type that show user profile data
-        user.profileTypeDescription = EnumUtils.getUserProfileTypeDescription(entity.getProfileType().getValue());
+        // Encapsulate profile description to improve its usability across the application.
+        user.profileTypeDescription = EnumUtils.getUserProfileTypeDescription(entity.getProfileType().ordinal());
 
         return user;
     }

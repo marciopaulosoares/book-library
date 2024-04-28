@@ -1,6 +1,5 @@
 package com.mp.booklibrary;
 
-import com.mp.booklibrary.dto.UserDto;
 import com.mp.booklibrary.dto.UserResponseDto;
 import com.mp.booklibrary.entity.UserProfile;
 import com.mp.booklibrary.enums.UserProfileType;
@@ -30,7 +29,7 @@ public class UserServiceImplTest {
     @Test
     public  void getUsersFromRepoTest(){
         when(userRepository.findAll()).thenReturn(Arrays.asList(
-                new UserProfile("One User","myemail_one@myemail.com", UserProfileType.BORROWER, true),
+                new UserProfile("One User","myemail_one@myemail.com", UserProfileType.MEMBER, true),
                 new UserProfile("Other User","myemail_two@myemail.com", UserProfileType.BACKOFFICE, false)
         ));
 

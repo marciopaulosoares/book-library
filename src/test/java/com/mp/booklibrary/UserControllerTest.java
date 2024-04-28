@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -46,7 +47,7 @@ public class UserControllerTest {
     }
     @BeforeEach
     void setup(){
-        users.add(new UserProfile("USER ONE", "email_01@email.com", UserProfileType.BORROWER, true ));
+        users.add(new UserProfile("USER ONE", "email_01@email.com", UserProfileType.MEMBER, true ));
         users.add(new UserProfile("USER TWO", "email_02@email.com", UserProfileType.BACKOFFICE, false ));
         for (UserProfile user : users)
         {
@@ -60,7 +61,7 @@ public class UserControllerTest {
 
     @Test
     public void postUser() throws  Exception{
-        UserDto newUser = new UserDto("new user", "email_03@gmail.com", true, 2);
+        UserDto newUser = new UserDto("new user", "email_03@gmail.com", true, UserProfileType.MEMBER.ordinal());
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String requestBody = objectMapper.writeValueAsString(newUser);
 
@@ -70,7 +71,8 @@ public class UserControllerTest {
                 .content(requestBody);
 
         mockMvc.perform(request)
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andReturn();
     }
 
     @Test

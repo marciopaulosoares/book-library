@@ -6,7 +6,7 @@ public class EnumUtils {
 
     public static UserProfileType getUserProfileType(int value) {
         for (UserProfileType type : UserProfileType.values()) {
-            if (type.getValue() == value) {
+            if (type.ordinal() == value) {
                 return type;
             }
         }
@@ -15,8 +15,8 @@ public class EnumUtils {
 
     public static String getUserProfileTypeDescription(int value) {
         for (UserProfileType type : UserProfileType.values()) {
-            if (type.getValue() == value) {
-                return type.getName();
+            if (type.ordinal()== value) {
+                return type.getLabel();
             }
         }
         throw new IllegalArgumentException("Invalid value: " + value);
