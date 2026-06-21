@@ -19,6 +19,8 @@ steps:
     extraProperties: |
       sonar.projectKey=marciopaulo-sonar_books
       sonar.projectName=books
+      sonar.sources=src/main/java
+      sonar.tests=src/test/java
       sonar.java.binaries=target/classes
       sonar.java.test.binaries=target/test-classes
 - task: Maven@4
@@ -30,10 +32,7 @@ steps:
     jdkArchitectureOption: 'x64'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
-- task: SonarQubeAnalyze@8
-  inputs:
-    jdkversion: 'JAVA_HOME_17_X64'
+    goals: 'clean install sonar:sonar'
 - task: SonarQubePublish@8
   inputs:
     pollingTimeoutSec: '300'
