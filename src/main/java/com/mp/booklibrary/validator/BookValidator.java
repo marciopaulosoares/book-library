@@ -42,7 +42,7 @@ public class BookValidator {
         return title.substring(0, 1).toUpperCase() + title.substring(1).toLowerCase();
     }
 
-     public String normalizeTitle2(String title) {
+     public String normalizeTitle3(String title) {
         if (title == null) {
             return null;
         }
