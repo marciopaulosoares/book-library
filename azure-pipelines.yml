@@ -6,12 +6,22 @@
 trigger:
 - master
 
-pool:
-  vmImage: ubuntu-latest
+pr:
+- master
+
+variables:
+  sonarBaseOptions: '-Dsonar.qualitygate.wait=true'
+  sonarPrOptions: ''
 
 steps:
 - checkout: self
   fetchDepth: 0
+
+- bash: |
+    echo "##vso[task.setvariable variable=sonarPrOptions]-Dsonar.pullrequest.key=$(System.PullRequest.PullRequestId) -Dsonar.pullrequest.branch=$(System.PullRequest.SourceBranch) -Dsonar.pullrequest.base=$(System.PullRequest.TargetBranch)"
+  displayName: 'Set Sonar PR properties'
+  condition: eq(variables['Build.Reason'], 'PullRequest')
+
 - task: SonarQubePrepare@8
   inputs:
     SonarQube: 'sonar'
@@ -20,10 +30,12 @@ steps:
       sonar.projectKey=marciopaulo-sonar_books
       sonar.projectName=books
       sonar.organization=marciopaulo-sonar
+      sonar.host.url=https://sonarcloud.io
       sonar.sources=src/main/java
       sonar.tests=src/test/java
       sonar.java.binaries=target/classes
       sonar.java.test.binaries=target/test-classes
+
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
@@ -34,6 +46,12 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'clean install sonar:sonar'
+    options: '$(sonarBaseOptions) $(sonarPrOptions)'
+  env:
+    SONAR_TOKEN: $(SONAR_TOKEN)
+    SONAR_HOST_URL: https://sonarcloud.io
+
 - task: SonarQubePublish@8
+  condition: succeededOrFailed()
   inputs:
     pollingTimeoutSec: '300'
