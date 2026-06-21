@@ -41,4 +41,13 @@ public class BookValidator {
         title = title.replaceAll("\\s+", " ");
         return title.substring(0, 1).toUpperCase() + title.substring(1).toLowerCase();
     }
+
+     public String normalizeTitle2(String title) {
+        if (title == null) {
+            return null;
+        }
+        title = title.trim();
+        title = title.replaceAll("\\s+", " ");
+        return title.substring(0, 1).toUpperCase() + title.substring(1).toLowerCase();
+    }
 }
