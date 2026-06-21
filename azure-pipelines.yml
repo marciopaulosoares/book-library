@@ -12,7 +12,19 @@ pool:
 steps:
 - checkout: self
   fetchDepth: 0
-
+- task: SonarQubePrepare@8
+  inputs:
+    SonarQube: 'sonar'
+    scannerMode: 'other'
+    extraProperties: |
+      sonar.projectKey=marciopaulo-sonar_books
+      sonar.projectName=books
+- task: SonarQubeAnalyze@8
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+- task: SonarQubePublish@8
+  inputs:
+    pollingTimeoutSec: '300'
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
