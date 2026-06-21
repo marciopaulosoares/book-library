@@ -19,6 +19,7 @@ steps:
     extraProperties: |
       sonar.projectKey=marciopaulo-sonar_books
       sonar.projectName=books
+      sonar.organization=marciopaulo-sonar
       sonar.sources=src/main/java
       sonar.tests=src/test/java
       sonar.java.binaries=target/classes
